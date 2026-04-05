@@ -1,0 +1,143 @@
+<!-- ========================= index.html ========================= -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SADEEmax Food Science</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="navbar">
+  <div class="logo">SADEEmax</div>
+  <nav>
+    <ul class="nav-links">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#topics">Topics</a></li>
+      <li><a href="#articles">Articles</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+  <div class="menu-toggle">☰</div>
+</header>
+
+<section id="home" class="hero">
+  <h1>Welcome to SADEEmax Food Science</h1>
+  <p>Explore the Science Behind What You Eat</p>
+  <a href="#articles" class="btn">Explore Now</a>
+</section>
+
+<section id="topics" class="topics">
+  <h2>Topics</h2>
+  <div class="topic-grid">
+    <div class="card">Nutrition</div>
+    <div class="card">Food Chemistry</div>
+    <div class="card">Food Safety</div>
+    <div class="card">Food Processing</div>
+  </div>
+</section>
+
+<section id="articles" class="articles">
+  <h2>Articles</h2>
+  <input type="text" id="search" placeholder="Search articles...">
+  <div id="article-grid" class="article-grid"></div>
+</section>
+
+<section id="about" class="about">
+  <h2>About</h2>
+  <p>SADEEmax is dedicated to sharing knowledge about food science, nutrition, and safety in a simple and engaging way.</p>
+</section>
+
+<section id="contact" class="contact">
+  <h2>Contact</h2>
+  <form id="contact-form">
+    <input type="text" placeholder="Name" required>
+    <input type="email" placeholder="Email" required>
+    <textarea placeholder="Message" required></textarea>
+    <button type="submit">Send</button>
+  </form>
+</section>
+
+<div id="modal" class="modal">
+  <div class="modal-content">
+    <span id="close">&times;</span>
+    <h3 id="modal-title"></h3>
+    <p id="modal-content-text"></p>
+  </div>
+</div>
+
+<footer>
+  <p>© 2026 SADEEmax Food Science</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
+
+
+<!-- ========================= style.css ========================= -->
+<style>
+body { margin:0; font-family:sans-serif; background:#f9f9f9; }
+.navbar { display:flex; justify-content:space-between; padding:15px; background:white; position:sticky; top:0; }
+.logo { color:green; font-weight:bold; }
+.nav-links { display:flex; gap:15px; list-style:none; }
+.hero { text-align:center; padding:100px 20px; background:linear-gradient(white,#e6ffe6); }
+.btn { background:orange; padding:10px 20px; color:white; text-decoration:none; }
+.topic-grid, .article-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:20px; padding:20px; }
+.card { background:white; padding:20px; border-radius:10px; }
+.article { background:white; padding:15px; }
+.modal { display:none; position:fixed; width:100%; height:100%; background:rgba(0,0,0,0.7); top:0; }
+.modal-content { background:white; margin:10% auto; padding:20px; width:300px; }
+</style>
+
+
+<!-- ========================= script.js ========================= -->
+<script>
+const articles = [
+  {title:"What is Nutrition?", content:"Nutrition is the study of nutrients in food..."},
+  {title:"Food Safety Basics", content:"Food safety prevents contamination..."},
+  {title:"Food Chemistry", content:"Food chemistry explains reactions in food..."}
+];
+
+const grid = document.getElementById('article-grid');
+
+function renderArticles(list){
+  grid.innerHTML='';
+  list.forEach((a,i)=>{
+    grid.innerHTML += `<div class="article" onclick="openModal(${i})">
+      <h3>${a.title}</h3>
+      <p>${a.content.substring(0,50)}...</p>
+      <button>Read More</button>
+    </div>`;
+  });
+}
+
+function openModal(i){
+  document.getElementById('modal-title').innerText = articles[i].title;
+  document.getElementById('modal-content-text').innerText = articles[i].content;
+  document.getElementById('modal').style.display='block';
+}
+
+document.getElementById('close').onclick = ()=>{
+  document.getElementById('modal').style.display='none';
+};
+
+// Search
+
+document.getElementById('search').addEventListener('input', e=>{
+  const value = e.target.value.toLowerCase();
+  const filtered = articles.filter(a=>a.title.toLowerCase().includes(value));
+  renderArticles(filtered);
+});
+
+// Form validation
+
+document.getElementById('contact-form').addEventListener('submit', e=>{
+  e.preventDefault();
+  alert('Message sent successfully!');
+});
+
+renderArticles(articles);
+</script>
